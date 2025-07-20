@@ -82,3 +82,55 @@ model Verification {
 
   @@map("verification")
 }
+
+
+model GrupoCategoria {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  categorias   Categoria[]
+  criadoEm     DateTime    @default(now())
+}
+
+model Categoria {
+  id              Int                @id @default(autoincrement())
+  nome            String
+  grupoCategoria  GrupoCategoria     @relation(fields: [grupoCategoriaId], references: [id])
+  grupoCategoriaId Int
+  produtos        Produto[]          @relation("ProdutoCategoria")
+  criadoEm        DateTime           @default(now())
+  inventarioItem  InventarioItem[]
+}
+
+model Produto {
+  id              String             @id @default(cuid())
+  nome            String
+  precoUnitario   Float
+  criadoEm        DateTime           @default(now())
+  categorias      Categoria[]        @relation("ProdutoCategoria")
+  inventarioItens InventarioItem[]
+}
+
+model Inventario {
+  id          String           @id @default(cuid())
+  mesAno      String           // Ex: "07/2025"
+  criadoEm    DateTime         @default(now())
+  itens       InventarioItem[]
+}
+
+model InventarioItem {
+  id            String     @id @default(cuid())
+  inventario    Inventario @relation(fields: [inventarioId], references: [id])
+  inventarioId  String
+
+  produto       Produto    @relation(fields: [produtoId], references: [id])
+  produtoId     String
+
+  categoria     Categoria  @relation(fields: [categoriaId], references: [id])
+  categoriaId   Int
+
+  quantidade    Float
+  precoUnitario Float
+  valorTotal    Float      // quantidade * precoUnitario
+
+  @@unique([inventarioId, produtoId, categoriaId])
+}
