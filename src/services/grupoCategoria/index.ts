@@ -6,9 +6,10 @@ import { Prisma } from "@/generated/prisma";
 export const grupoCategoriaService = {
 
   async create(data: Prisma.GrupoCategoriaCreateInput ){
-    await prisma.grupoCategoria.create({
+    const created =await prisma.grupoCategoria.create({
       data,
     })
+    return created
   },
 
   async getAll(){
