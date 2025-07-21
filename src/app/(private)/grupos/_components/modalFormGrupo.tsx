@@ -1,10 +1,6 @@
 'use client'
 import { Button, Dialog, Field, Input, Portal } from "@chakra-ui/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import z from "zod";
-import {prisma} from "@/lib/auth"
-import { grupoCategoriaService } from "@/services/grupoCategoria";
 import { useState } from "react";
 import { CreateCategoriaAction } from "@/actions/grupoCategoria";
 
@@ -18,11 +14,7 @@ export default function ModalFormGrupo(){
 
   const [isLoading, setIsLoading] = useState(false)
 
-  // const {register, handleSubmit, formState: {errors}, setError} = useForm<FormData>({
-    
-  // })
-
-  const onSubmit = async (data: FormData)=>{
+  const action = async (data: FormData)=>{
     console.log(data)
     setIsLoading(true)
     const creating = await CreateCategoriaAction(data)
@@ -44,19 +36,21 @@ export default function ModalFormGrupo(){
                 Crie um novo Grupo
               </Dialog.Title>
             </Dialog.Header>
-            <Dialog.Body>
-              <Field.Root>
-                <Field.Label>Nome do Grupo</Field.Label>
-                <Input name="nome" />
-                {/* {errors.nome && <Field.ErrorText>{errors.nome.message}</Field.ErrorText>} */}
-              </Field.Root>
-            </Dialog.Body>
-            <Dialog.Footer>
-              <Dialog.ActionTrigger asChild>
-                <Button variant={'outline'}>Cancelar</Button>
-              </Dialog.ActionTrigger>
-              <Button colorPalette={'orange'} onSubmit={()=>onSubmit} loading={isLoading}>Salvar</Button>
-            </Dialog.Footer>
+            <form action={action}>
+              <Dialog.Body>
+                <Field.Root>
+                  <Field.Label>Nome do Grupo</Field.Label>
+                  <Input name="nome" />
+                  {/* {errors.nome && <Field.ErrorText>{errors.nome.message}</Field.ErrorText>} */}
+                </Field.Root>
+              </Dialog.Body>
+              <Dialog.Footer>
+                <Dialog.ActionTrigger asChild>
+                  <Button variant={'outline'}>Cancelar</Button>
+                </Dialog.ActionTrigger>
+                <Button colorPalette={'orange'} type="submit" loading={isLoading}>Salvar</Button>
+              </Dialog.Footer>
+            </form>
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>

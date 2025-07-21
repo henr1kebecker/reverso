@@ -2,16 +2,13 @@ import { Box, Button, Container, Field, Fieldset, Text } from "@chakra-ui/react"
 import ListaGrupoComponent from "./_components/listaGrupo";
 import { prisma } from "@/lib/auth";
 import ModalFormGrupo from "./_components/modalFormGrupo";
+import { getAllGrupoCategoriaService } from "@/services/grupoCategoria";
 
 
 
 export default async function GruposPage(){
 
-  const response = await prisma.grupoCategoria.findMany({
-    orderBy:{
-      nome: 'asc'
-    }
-  })
+  const response = await getAllGrupoCategoriaService(null);
   
 
   return(

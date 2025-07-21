@@ -1,21 +1,47 @@
 'use client'
 
 import { GrupoCategoria } from "@/generated/prisma";
-import { Box, Input, InputGroup } from "@chakra-ui/react";
+import { Box, Button, Icon, Input, InputGroup, Separator, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { LuSearch } from "react-icons/lu";
+import { LuBrush, LuPen, LuSearch } from "react-icons/lu";
 import { prisma } from "@/lib/auth";
 
 export default function ListaGrupoComponent( data: {data: GrupoCategoria[]}){
 
-  
+  const grupos = data.data
+  const [dataSearch, setDataSearch] = useState<GrupoCategoria[]>(grupos)
+
+  const onSearch = (search:string | '')=>{
+    if(search.length >= 1 ){
+      const filterGrupos = grupos.filter( item => item.nome.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+      setDataSearch(filterGrupos)
+    }
+    else{
+      setDataSearch(grupos)
+    }
+  }
+
   return(
     <Box display={'block'} p={2}>
       <InputGroup endElement={<LuSearch/>} colorPalette={'orange'}> 
-        <Input/>
+        <Input onChange={(e)=>onSearch(e.target.value)} placeholder="Digite para buscar..."/>
       </InputGroup>
-      <Box display={'block'}>
-
+      <Box display={'block'} mt={5}>
+        {dataSearch.map((item, index)=>(
+          <Stack key={index} >
+            <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+              <Box>{item.nome}</Box>
+              <Box p={2}>
+                <Button variant={'ghost'}>
+                  <Icon size={'md'} fill={'orange.solid'} color={'orange.solid'}>
+                    <LuBrush/>
+                  </Icon>
+                </Button>
+              </Box>
+            </Box>
+            <Separator />
+          </Stack>
+        ))}
       </Box>
     </Box>
   )

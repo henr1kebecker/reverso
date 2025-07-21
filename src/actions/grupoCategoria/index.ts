@@ -1,5 +1,7 @@
 'use server'
-import { grupoCategoriaService } from '@/services/grupoCategoria'
+
+import { createGrupoCategoriaService, getAllGrupoCategoriaService } from '@/services/grupoCategoria'
+import { revalidatePath } from 'next/cache'
 import z from 'zod'
 
 
@@ -18,7 +20,18 @@ export async function CreateCategoriaAction(formData:FormData){
       errors: validatedField.error.message,
     }
   }
-  await grupoCategoriaService.create(
+  const created = await createGrupoCategoriaService(
     validatedField.data
   )
+  revalidatePath('/grupos')
+  return created
+}
+
+
+export async function GetAllGrupoActions(busca: string | null){
+
+  const grupos = await getAllGrupoCategoriaService(busca)
+  
+  return grupos
+
 }
