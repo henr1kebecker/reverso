@@ -1,14 +1,16 @@
 import { Box, Button, Container, Field, Fieldset, Text } from "@chakra-ui/react";
 import ListaGrupoComponent from "./_components/listaGrupo";
-import { prisma } from "@/lib/auth";
 import ModalFormGrupo from "./_components/modalFormGrupo";
-import { getAllGrupoCategoriaService } from "@/services/grupoCategoria";
+import { GetAllGrupoActions } from "@/actions/grupoCategoria";
+import ListaCategoriasComponent from "./_components/listaCategorias";
+import { GetAllCategoriaAction } from "@/actions/categorias";
 
 
 
 export default async function GruposPage(){
 
-  const response = await getAllGrupoCategoriaService(null);
+  const response = await GetAllGrupoActions(null);
+  const responseCategorias = await GetAllCategoriaAction(null)
   
 
   return(
@@ -35,6 +37,7 @@ export default async function GruposPage(){
           </Box>
           <Button colorPalette={'orange'} >Nova Categoria</Button>
         </Box>
+        <ListaCategoriasComponent categorias={responseCategorias} />
       </Box>
       
     </Container>

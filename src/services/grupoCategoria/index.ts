@@ -24,7 +24,6 @@ export async function getAllGrupoCategoriaService(busca: string | null) {
         categorias: true
       }
     })
-    console.log(grupos)
     return grupos
   }else {
     const grupos = await prisma.grupoCategoria.findMany({

@@ -1,10 +1,9 @@
 'use client'
-
 import { GrupoCategoria } from "@/generated/prisma";
-import { Box, Button, Icon, Input, InputGroup, Separator, Stack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Box, Button, Icon, Input, InputGroup, Separator, Stack, Text } from "@chakra-ui/react";
+import {  useState } from "react";
 import { LuBrush, LuPen, LuSearch } from "react-icons/lu";
-import { prisma } from "@/lib/auth";
+
 
 export default function ListaGrupoComponent( data: {data: GrupoCategoria[]}){
 
@@ -30,7 +29,7 @@ export default function ListaGrupoComponent( data: {data: GrupoCategoria[]}){
         {dataSearch.map((item, index)=>(
           <Stack key={index} >
             <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-              <Box>{item.nome}</Box>
+              <Text>{item.nome}</Text>
               <Box p={2}>
                 <Button variant={'ghost'}>
                   <Icon size={'md'} fill={'orange.solid'} color={'orange.solid'}>
