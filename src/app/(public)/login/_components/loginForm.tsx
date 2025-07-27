@@ -33,7 +33,7 @@ export function LoginForm(){
     await authClient.signIn.email({
       email: dataform.email,
       password: dataform.senha,
-      // callbackURL:'/',
+      callbackURL:'/',
       fetchOptions:{
         onSuccess(ctx){
           console.log('sucesso!!!')

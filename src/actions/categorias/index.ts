@@ -14,7 +14,7 @@ const schemaCategoria = z.object({
 export async function CreateCategoriaAction(formData: FormData){
   const validatedField = schemaCategoria.safeParse({
     nome: formData.get('nome'),
-    grupoCategoria: Number(formData.get('grupoCategoria'))
+    grupoCategoria: Number(formData.get('grupoId'))
   })
 
   if(!validatedField.success){

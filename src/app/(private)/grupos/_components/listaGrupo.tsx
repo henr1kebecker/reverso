@@ -5,6 +5,8 @@ import {  useState } from "react";
 import { LuBrush, LuPen, LuSearch } from "react-icons/lu";
 
 
+
+
 export default function ListaGrupoComponent( data: {data: GrupoCategoria[]}){
 
   const grupos = data.data

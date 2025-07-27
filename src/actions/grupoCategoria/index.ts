@@ -10,7 +10,7 @@ const grupoForm = z.object({
 })
 
 
-export async function CreateCategoriaAction(formData:FormData){
+export async function CreateGrupoAction(formData:FormData){
   const validatedField = grupoForm.safeParse({
     nome: formData.get('nome')
   })
