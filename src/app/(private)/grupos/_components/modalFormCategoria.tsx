@@ -20,13 +20,13 @@ type GrupoProps = GrupoCategoria & {
 
 export default function ModalFormCategoria({item}:{item : GrupoCategoria}){
 
-  console.log(item)
   const [isLoading, setIsLoading] = useState(false)
 
   const action = async (data: FormData)=>{
-    data.append('grupoId', `${item.id}`)
     setIsLoading(true)
+    data.append('grupoCategoriaId', `${item.id}`)
     const creating = await CreateCategoriaAction(data)
+    console.log(creating)
     setIsLoading(false)
   }
 

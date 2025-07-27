@@ -34,7 +34,6 @@ export async function getAllGrupoCategoriaService(busca: string | null) {
         categorias: true
       }
     })
-    console.log(grupos)
     return grupos
   }
 }

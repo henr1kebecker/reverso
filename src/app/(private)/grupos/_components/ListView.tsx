@@ -15,6 +15,8 @@ export default function ListViewComponent(){
 
   const [isLoading, setIsLoading]= useState<boolean>(false)
   const [grupos, setGrupos] = useState<GrupoProps[]>([])
+
+
   useEffect(()=>{
     setIsLoading(true)
     const getGrupos = async ()=>{
@@ -63,25 +65,24 @@ export default function ListViewComponent(){
         ):(
           <Box display={'flex'} flexWrap={'wrap'} gap={5} w={'100%'} h={'100%'}>
             {grupos.map((grupo, index) => (
-              <Box p={2} _hover={{borderTopWidth:'2px', borderTopColor:'orange.focusRing'}} minW={'300px'} key={index}>
-                <Accordion.Root key={index}>
+              <Box p={2} _hover={{borderTopWidth:'2px', borderTopColor:'orange.focusRing'}} minW={'350px'} key={index}>
+                <Accordion.Root key={index} size={'lg'} collapsible>
                   <Accordion.Item key={index} value={String(grupo.id)}>
                     <Box position={'relative'}>
                       <Accordion.ItemTrigger>
                         <Span flex={1}>{grupo.nome}</Span>
-                        <Accordion.ItemIndicator />
                       </Accordion.ItemTrigger>
                       <AbsoluteCenter axis={'vertical'} insetEnd={0} gap={2}>
-                        <Button variant={'plain'} colorPalette={'orange'}>
+                        <Button variant={'surface'} colorPalette={'orange'}>
                           <LuFilePenLine />
                         </Button>
                         <ModalFormCategoria item={grupo} />
                       </AbsoluteCenter>
                     </Box>
-                    <Accordion.ItemContent>
+                    <Accordion.ItemContent display={'flex'} flexWrap={'wrap'} gap={2}>
                       {grupo.categorias.map((categoria, id)=>(
-                        <Accordion.ItemBody>
-                          <Badge variant={'solid'} key={id}>
+                        <Accordion.ItemBody key={id}>
+                          <Badge variant={'solid'} key={id} colorPalette={'orange'}>
                             {categoria.nome}
                           </Badge>
                         </Accordion.ItemBody>
