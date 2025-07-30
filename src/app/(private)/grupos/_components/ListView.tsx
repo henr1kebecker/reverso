@@ -3,7 +3,7 @@ import { GetAllGrupoActions } from "@/actions/grupoCategoria";
 import { Categoria, GrupoCategoria } from "@/generated/prisma";
 import { AbsoluteCenter, Accordion, Badge, Box, Button, Container, HStack, Input, InputGroup, Skeleton, Span, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { LuBadge, LuFilePenLine, LuPlus, LuSearch, LuSun } from "react-icons/lu";
+import { LuBadge, LuFilePenLine, LuPen, LuPlus, LuSearch, LuSun } from "react-icons/lu";
 import ModalFormGrupo from "./modalFormGrupo";
 import ModalFormCategoria from "./modalFormCategoria";
 
@@ -65,7 +65,7 @@ export default function ListViewComponent(){
         ):(
           <Box display={'flex'} flexWrap={'wrap'} gap={5} w={'100%'} h={'100%'}>
             {grupos.map((grupo, index) => (
-              <Box p={2} _hover={{borderTopWidth:'2px', borderTopColor:'orange.focusRing'}} minW={'350px'} key={index}>
+              <Box p={2} _hover={{borderTopWidth:'2px', borderTopColor:'orange.focusRing'}} w={'350px'} key={index}>
                 <Accordion.Root key={index} size={'lg'} collapsible>
                   <Accordion.Item key={index} value={String(grupo.id)}>
                     <Box position={'relative'}>
@@ -82,7 +82,7 @@ export default function ListViewComponent(){
                     <Accordion.ItemContent display={'flex'} flexWrap={'wrap'} gap={2}>
                       {grupo.categorias.map((categoria, id)=>(
                         <Accordion.ItemBody key={id}>
-                          <Badge variant={'solid'} key={id} colorPalette={'orange'}>
+                          <Badge variant={'solid'} key={id} colorPalette={'orange'} size={'lg'} p={2}>
                             {categoria.nome}
                           </Badge>
                         </Accordion.ItemBody>
