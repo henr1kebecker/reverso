@@ -1,6 +1,7 @@
 'use client'
 import { Box, Button, Container, createListCollection, Heading, HStack, Input, InputGroup, Portal, Select, Separator, Stack, Text } from "@chakra-ui/react";
 import { LuEye, LuPencil, LuSearchCode } from "react-icons/lu";
+import ModalFormCreateProduto from "./FormProduto";
 
 
 const dados = createListCollection({
@@ -31,6 +32,7 @@ const produtos = [
 
 
 export default function ProdutoListComponent(){
+
   return(
     <Container fluid h={'90%'} p={'10px 0'}>
       <Box h={'100%'} display={'flex'} p={2} flexWrap={'wrap'} rounded={'md'} borderWidth={1} alignContent={'start'} gap={2}>
@@ -38,7 +40,7 @@ export default function ProdutoListComponent(){
           <Input placeholder="Pesquise pelo produto"></Input>
         </InputGroup>
         <Button colorPalette={'orange'}>Importar XML</Button>
-        <Button colorPalette={'orange'}>Cadastrar</Button>
+        <ModalFormCreateProduto/>
         <Text fontSize={'md'} alignSelf={'center'}>Filtros:</Text>
         <Select.Root collection={dados} width={'200px'}>
           <Select.HiddenSelect/>

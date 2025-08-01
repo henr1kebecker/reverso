@@ -3,6 +3,9 @@ import ProdutoListComponent from "./_components/listProduto";
 
 
 export default function ProdutosPage(){
+
+  
+
   return (
     <Container display={'flex'} flexWrap={'wrap'} h={'80vh'} justifyContent={'center'} alignItems={'start'}>
       <HStack display={'block'} w={'100%'} minH={'100px'} maxH={'140px'} mt={2} borderWidth={1} borderColor={'orange.subtle'} rounded={'md'} p={2}>
