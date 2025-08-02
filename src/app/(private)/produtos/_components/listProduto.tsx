@@ -2,6 +2,10 @@
 import { Box, Button, Container, createListCollection, Heading, HStack, Input, InputGroup, Portal, Select, Separator, Stack, Text } from "@chakra-ui/react";
 import { LuEye, LuPencil, LuSearchCode } from "react-icons/lu";
 import ModalFormCreateProduto from "./FormProduto";
+import { getAllProdutosService } from "@/services/produto";
+import { useEffect, useState } from "react";
+import { Categoria, Produto } from "@/generated/prisma";
+import { GetAllProdutosActions } from "@/actions/produto";
 
 
 const dados = createListCollection({
@@ -12,32 +16,36 @@ const dados = createListCollection({
   ]
 })
 
-const produtos = [
-  { id: 1, nome: "Filé de Frango", categoria: "Carnes", preco: 22.50 },
-  { id: 2, nome: "Arroz Agulhinha", categoria: "Grãos", preco: 4.90 },
-  { id: 3, nome: "Alho", categoria: "Temperos", preco: 12.00 },
-  { id: 4, nome: "Tomate Italiano", categoria: "Hortifruti", preco: 6.30 },
-  { id: 5, nome: "Cebola Roxa", categoria: "Hortifruti", preco: 5.20 },
-  { id: 6, nome: "Óleo de Soja", categoria: "Óleos e Gorduras", preco: 7.90 },
-  { id: 7, nome: "Feijão Carioca", categoria: "Grãos", preco: 6.80 },
-  { id: 8, nome: "Carne Moída Bovina", categoria: "Carnes", preco: 28.70 },
-  { id: 9, nome: "Queijo Muçarela", categoria: "Laticínios", preco: 34.90 },
-  { id: 10, nome: "Farinha de Trigo", categoria: "Panificação", preco: 3.50 },
-  { id: 11, nome: "Leite Integral", categoria: "Laticínios", preco: 4.60 },
-  { id: 12, nome: "Pimentão Verde", categoria: "Hortifruti", preco: 4.00 },
-  { id: 13, nome: "Manteiga Sem Sal", categoria: "Laticínios", preco: 19.80 },
-  { id: 14, nome: "Açúcar Cristal", categoria: "Doces e Sobremesas", preco: 3.90 },
-  { id: 15, nome: "Sal Refinado", categoria: "Temperos", preco: 2.20 }
-]
+type ProdutoProps = Produto & {
+  categorias: Categoria[]
+}
 
 
 export default function ProdutoListComponent(){
+
+  const [produtos, setProdutos] = useState<ProdutoProps[]>([])
+  const [search, setSearch] = useState<string>('')
+
+  useEffect(()=>{
+    const fetchProdutos = async ()=>{
+      const data = await GetAllProdutosActions()
+      setProdutos(data)
+    }
+    fetchProdutos()
+  },[])
+
+  const onSearch = (busca:string)=>{
+    if(busca.length >= 1){
+      const filterProd = produtos.filter((item) => item.nome.toLowerCase().includes(busca.toLowerCase()))
+      setProdutos(filterProd)
+    }
+  }
 
   return(
     <Container fluid h={'90%'} p={'10px 0'}>
       <Box h={'100%'} display={'flex'} p={2} flexWrap={'wrap'} rounded={'md'} borderWidth={1} alignContent={'start'} gap={2}>
         <InputGroup endElement={<LuSearchCode/>} colorPalette={'orange'} >
-          <Input placeholder="Pesquise pelo produto"></Input>
+          <Input placeholder="Pesquise pelo produto" onChange={(e)=>onSearch(e.target.value)}></Input>
         </InputGroup>
         <Button colorPalette={'orange'}>Importar XML</Button>
         <ModalFormCreateProduto/>
@@ -81,13 +89,15 @@ export default function ProdutoListComponent(){
                 <Text fontSize={'sm'}>
                   Categotia
                 </Text>
-                <Heading>{item.categoria}</Heading>
+                {item.categorias.map((cat)=>(
+                  <Heading key={cat.nome}>{cat.nome}</Heading>
+                ))}
               </Stack>
               <Stack display={'flex'} h={'100%'} minW={'20%'} gap={0} justifyContent={'center'}>
                 <Text fontSize={'sm'}>
                   Preço
                 </Text>
-                <Heading>{item.preco.toFixed(2)}</Heading>
+                <Heading>{item.precoUnitario.toFixed(2)}</Heading>
               </Stack>
               <Stack display={'flex'} h={'100%'} minW={'20%'} gap={0} justifyContent={'center'}>
                 <Text fontSize={'sm'}>

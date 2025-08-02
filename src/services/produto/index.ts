@@ -2,11 +2,22 @@ import { Prisma } from "@/generated/prisma";
 import { prisma } from "@/lib/auth";
 
 
-export async function CreateProdutoService(data: Prisma.ProdutoUncheckedCreateInput){
-  const created = await prisma.produto.create({
-    data,
-  })
-  return created
+type ProdutoInput = {
+  nome: string
+  precoUnitario: number
+  categoriaIds: number[]
+}
+
+export async function CreateProdutoService({nome, precoUnitario, categoriaIds}: ProdutoInput){
+  const data: Prisma.ProdutoCreateInput = {
+    nome,
+    precoUnitario,
+    categorias:{
+      connect: categoriaIds.map(id =>({id}))
+    }
+  }
+
+  return await prisma.produto.create({data})
 }
 
 export async function getAllProdutosService(){
