@@ -1,10 +1,13 @@
 import { Box, Container, Heading, HStack, Stack, Text } from "@chakra-ui/react";
 import ProdutoListComponent from "./_components/listProduto";
+import { getAllProdutosService } from "@/services/produto";
+import { GetAllCategoriaService } from "@/services/categoria";
 
 
-export default function ProdutosPage(){
+export default async function ProdutosPage(){
 
-  
+  const produtosList = await getAllProdutosService()
+  const categoriasList = await GetAllCategoriaService(null)
 
   return (
     <Container display={'flex'} flexWrap={'wrap'} h={'80vh'} justifyContent={'center'} alignItems={'start'}>
@@ -14,7 +17,7 @@ export default function ProdutosPage(){
           manualmente os dados do produto.
         </Text>
       </HStack>
-      <ProdutoListComponent />
+      <ProdutoListComponent produtosItens={produtosList} categorias={categoriasList}/>
 
     </Container>
   )

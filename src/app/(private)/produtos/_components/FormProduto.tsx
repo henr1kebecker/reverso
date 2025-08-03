@@ -1,44 +1,25 @@
 'use client'
+
 import { GetAllCategoriaAction } from "@/actions/categorias";
 import { CreateProdutoAction } from "@/actions/produto";
-import { Button, CloseButton, createListCollection, Dialog, Field, Fieldset, HStack, Input, InputGroup, NumberInput, Portal, Select } from "@chakra-ui/react";
+import { Button, CloseButton, createListCollection, type ListCollection, Dialog, Field, Fieldset, HStack, Input, InputGroup, NumberInput, Portal, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { LuDollarSign } from "react-icons/lu";
 import { withMask } from "use-mask-input";
 
 
-type CategoriaItem = {
-  value: number, label: string
+type Props = {
+  categorias: ListCollection<{ value: number; label: string }>
 }
 
-export default function ModalFormCreateProduto(){
+export default function ModalFormCreateProduto({categorias}: Props){
 
   const [cates, setValue] = useState<string[]>([])
-  const listCat = createListCollection<CategoriaItem>({items:[]})
-  const [categoriasList, setCategoriasList] = useState(()=>listCat)
-
   
   const action = async (data: FormData)=>{
     data.append('categoriaIds', JSON.stringify(cates))
-    const creating = await CreateProdutoAction(data)
-    console.log(creating) 
+    const creating = await CreateProdutoAction(data) 
   }
-  
-  useEffect(()=>{
-    const fetchCate = async ()=>{
-      const categoriasDB =  await GetAllCategoriaAction(null)
-      
-      const newList = createListCollection({
-        items: categoriasDB.map((item)=>({
-          value: item.id,
-          label: item.nome
-        }))
-      })
-      setCategoriasList(newList)
-    }
-    fetchCate()
-
-  },[])
 
 
   return(
@@ -65,7 +46,7 @@ export default function ModalFormCreateProduto(){
 
                       <Field.Root>
                         <Field.Label>Categoria</Field.Label>
-                        <Select.Root multiple collection={categoriasList} 
+                        <Select.Root multiple collection={categorias} 
                           name="categoriaIds" 
                           onValueChange={(e)=> setValue(e.value)}
                         >
@@ -83,9 +64,9 @@ export default function ModalFormCreateProduto(){
                           <Portal>
                             <Select.Positioner >
                               <Select.Content zIndex={15000}>
-                                {categoriasList.items.map((cat) => (
-                                  <Select.Item item={cat} key={cat.value}>
-                                    {cat.label}
+                                {categorias.items.map((item) => (
+                                  <Select.Item item={item} key={item.value}>
+                                    {item.label}
                                     <Select.ItemIndicator/>
                                   </Select.Item>
                                 ))}

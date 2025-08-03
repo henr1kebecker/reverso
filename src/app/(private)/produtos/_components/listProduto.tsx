@@ -1,56 +1,80 @@
 'use client'
-import { Box, Button, Container, createListCollection, Heading, HStack, Input, InputGroup, Portal, Select, Separator, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Container, createListCollection, type ListCollection, Heading, HStack, Input, InputGroup, Portal, Select, Separator, Stack, Text } from "@chakra-ui/react";
 import { LuEye, LuPencil, LuSearchCode } from "react-icons/lu";
 import ModalFormCreateProduto from "./FormProduto";
-import { getAllProdutosService } from "@/services/produto";
 import { useEffect, useState } from "react";
 import { Categoria, Produto } from "@/generated/prisma";
-import { GetAllProdutosActions } from "@/actions/produto";
 
-
-const dados = createListCollection({
-  items:[
-  { value: 1, label: 'Carne' },
-  { value: 2, label: 'Fruta' },
-  { value: 3, label: 'Verdura' },
-  ]
-})
 
 type ProdutoProps = Produto & {
   categorias: Categoria[]
 }
 
+type CategoriaProps = Categoria
 
-export default function ProdutoListComponent(){
+type DataProps = {
+  produtosItens: ProdutoProps[]
+  categorias: CategoriaProps[]
+}
 
-  const [produtos, setProdutos] = useState<ProdutoProps[]>([])
-  const [search, setSearch] = useState<string>('')
+type CategoriaItem = {
+  value: number, label: string
+}
+
+export default function ProdutoListComponent(data:DataProps){
+
+  const [produtos, setProdutos] = useState<ProdutoProps[]>(data.produtosItens || [])
+  const listCat = createListCollection<CategoriaItem>({items:[]})
+  const [categoriasList, setCategoriasList] = useState(()=>listCat)
+  const [filter, setFilter] = useState<string[]>([])
+  const [busca, setBusca] = useState<string>('')
 
   useEffect(()=>{
-    const fetchProdutos = async ()=>{
-      const data = await GetAllProdutosActions()
-      setProdutos(data)
-    }
-    fetchProdutos()
-  },[])
+    const newList = createListCollection({
+      items: data.categorias.map((item)=>({
+        value: item.id,
+        label: item.nome
+      }))
+    })
+    setCategoriasList(newList)
+  },[data])
 
-  const onSearch = (busca:string)=>{
-    if(busca.length >= 1){
-      const filterProd = produtos.filter((item) => item.nome.toLowerCase().includes(busca.toLowerCase()))
-      setProdutos(filterProd)
+  useEffect(()=>{
+    if(filter.length >0){
+      if(busca.trim().length > 0){
+        const newData = data.produtosItens.filter(item => 
+          item.categorias.some(cat => cat.id === Number(filter[0]))
+        )
+        setProdutos(newData.filter(item => item.nome.toLocaleLowerCase().includes(busca.trim().toLocaleLowerCase())))
+
+      }else{
+        const newData = data.produtosItens.filter(item => 
+          item.categorias.some(cat => cat.id === Number(filter[0]))
+        )
+        setProdutos(newData)
+      }
+    }else{
+      if(busca.trim().length > 0){
+        const newData = data.produtosItens.filter(item => item.nome.toLocaleLowerCase().includes(busca.trim().toLocaleLowerCase()))
+        setProdutos(newData)
+      }else{
+        setProdutos(data.produtosItens)
+      }
     }
-  }
+  },[filter, busca])
 
   return(
     <Container fluid h={'90%'} p={'10px 0'}>
       <Box h={'100%'} display={'flex'} p={2} flexWrap={'wrap'} rounded={'md'} borderWidth={1} alignContent={'start'} gap={2}>
         <InputGroup endElement={<LuSearchCode/>} colorPalette={'orange'} >
-          <Input placeholder="Pesquise pelo produto" onChange={(e)=>onSearch(e.target.value)}></Input>
+          <Input placeholder="Pesquise pelo produto" onChange={(e)=>setBusca(e.target.value)}></Input>
         </InputGroup>
         <Button colorPalette={'orange'}>Importar XML</Button>
-        <ModalFormCreateProduto/>
+        <ModalFormCreateProduto categorias={categoriasList}/>
         <Text fontSize={'md'} alignSelf={'center'}>Filtros:</Text>
-        <Select.Root collection={dados} width={'200px'}>
+        <Select.Root collection={categoriasList} width={'200px'}
+          onValueChange={(e)=> setFilter(e.value)}
+        >
           <Select.HiddenSelect/>
           <Select.Control>
             <Select.Trigger>
@@ -64,8 +88,8 @@ export default function ProdutoListComponent(){
           </Select.Control>
           <Portal>
             <Select.Positioner>
-              <Select.Content>
-                {dados.items.map((cat) => (
+              <Select.Content >
+                {categoriasList.items.map((cat) => (
                   <Select.Item item={cat} key={cat.value}>
                     {cat.label}
                     <Select.ItemIndicator/>
@@ -97,7 +121,7 @@ export default function ProdutoListComponent(){
                 <Text fontSize={'sm'}>
                   Preço
                 </Text>
-                <Heading>{item.precoUnitario.toFixed(2)}</Heading>
+                <Heading>R$ {item.precoUnitario.toFixed(2)}</Heading>
               </Stack>
               <Stack display={'flex'} h={'100%'} minW={'20%'} gap={0} justifyContent={'center'}>
                 <Text fontSize={'sm'}>
