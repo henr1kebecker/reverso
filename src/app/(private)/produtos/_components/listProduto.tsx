@@ -4,6 +4,7 @@ import { LuEye, LuPencil, LuSearchCode } from "react-icons/lu";
 import ModalFormCreateProduto from "./FormProduto";
 import { useEffect, useState } from "react";
 import { Categoria, Produto } from "@/generated/prisma";
+import ModalFormUpdateProduto from "./FormUpdateProduto";
 
 
 type ProdutoProps = Produto & {
@@ -131,9 +132,7 @@ export default function ProdutoListComponent(data:DataProps){
                   <Button variant={'surface'} colorPalette={'orange'}>
                     <LuEye/>
                   </Button>
-                  <Button variant={'surface'} colorPalette={'orange'}>
-                    <LuPencil/>
-                  </Button>
+                  <ModalFormUpdateProduto produto={item} cats={categoriasList} />
                   
                 </Box>
               </Stack>

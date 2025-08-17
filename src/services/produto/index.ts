@@ -32,3 +32,40 @@ export async function getAllProdutosService(){
   
   return produtos
 }
+
+type ProdutoUpdateInput = {
+  nome?: string
+  precoUnitario?: number
+  categoriaIds?: number[]
+}
+
+export async function UpDateProdutoService(id: string, data: ProdutoUpdateInput){
+
+  const {categoriaIds, ...rest} = data
+  try{
+    if(categoriaIds !== undefined){
+      const update = await prisma.produto.update({
+        where:{
+          id: id,
+        },
+        data:{
+          ...rest,
+          categorias:{
+            set: categoriaIds.map((id)=>({id}))
+          }
+        }
+      })
+      return update
+    }else{
+      const update = await prisma.produto.update({
+        where:{
+          id: id,
+        },
+        data
+      })
+      return update
+    }
+  }catch (error){
+    throw new Error('Erro ao atualizar: '+ error)
+  }
+}
