@@ -10,8 +10,8 @@ const LinkURL: linkprops[] = [
   {nome: 'Produtos', url: '/produtos'},
   {nome: 'Grupos / Categorias', url: '/grupos'},
   {nome: 'Iventários', url: '/inventarios'},
-  {nome: 'Criar Usuário', url: '/usuarios'},
-  {nome: 'Produtos', url: '/produtos'},
+  {nome: 'Compras', url: '/compras'},
+  {nome: 'Usuário / Perfil', url: '/perfil'},
 ]
 
 

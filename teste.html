@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Usuário</title>
+  <style>
+    /* Paleta de cores */
+    :root {
+      --bg-dark: #121212;
+      --bg-card: #1e1e1e;
+      --text-primary: #ffffff;
+      --text-secondary: #b3b3b3;
+      --accent: #ff6a00;
+      --accent-hover: #ff8533;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1rem auto;
+    }
+
+    h2 {
+      margin: 0.5rem 0;
+      text-align: center;
+    }
+
+    p {
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--text-secondary);
+      color: var(--text-secondary);
+    }
+    .btn-secondary:hover {
+      background: var(--text-secondary);
+      color: var(--bg-dark);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin: 0.5rem 0 0.2rem;
+    }
+
+    input {
+      padding: 0.8rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      margin-bottom: 0.8rem;
+    }
+
+    input:focus {
+      outline: 2px solid var(--accent);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Card Perfil -->
+  <div class="card">
+    <div class="avatar">HB</div>
+    <h2>Henrique Becker</h2>
+    <p>henrique@email.com</p>
+    <button class="btn btn-primary">Editar Perfil</button>
+  </div>
+
+  <!-- Formulário Criar Usuário -->
+  <div class="card">
+    <h2>Criar Novo Usuário</h2>
+    <form>
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" placeholder="Digite o nome">
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Digite o email">
+
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" placeholder="Digite a senha">
+
+      <label for="confirmar">Confirmar Senha</label>
+      <input type="password" id="confirmar" placeholder="Confirme a senha">
+
+      <button type="submit" class="btn btn-primary">Criar Usuário</button>
+      <button type="button" class="btn btn-secondary">Cancelar</button>
+    </form>
+  </div>
+
+</body>
+</html>

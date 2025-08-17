@@ -16,7 +16,9 @@ export const auth = betterAuth({
     minPasswordLength: 4
   },
   plugins:[
-    admin(),
+    admin({
+      adminRoles: ['admin', 'user']
+    }),
   ],
   user:{
     additionalFields:{

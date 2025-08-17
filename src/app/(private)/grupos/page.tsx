@@ -1,18 +1,13 @@
-import { Box, Button, Container, Field, Fieldset, Text } from "@chakra-ui/react";
-import ListaGrupoComponent from "./_components/listaGrupo";
-import ModalFormGrupo from "./_components/modalFormGrupo";
-import { GetAllGrupoActions } from "@/actions/grupoCategoria";
-import ListaCategoriasComponent from "./_components/listaCategorias";
-import { GetAllCategoriaAction } from "@/actions/categorias";
+import { Container } from "@chakra-ui/react";
 import ListViewComponent from "./_components/ListView";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 
 
 export default async function GruposPage(){
 
-  // const response = await GetAllGrupoActions(null);
-  // const responseCategorias = await GetAllCategoriaAction(null)
-  
 
   return(
     <Container fluid p={5} display={'flex'} flexWrap={'wrap'} justifyContent={'center'} gap={10}>
